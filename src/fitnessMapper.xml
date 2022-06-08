@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="scit.dao.FitnessMapper">
+    <insert id="regist" parameterType="Fitness">
+        INSERT INTO FITNESS
+            (USRID, USRNAME, HEIGHT, WEIGHT, BMI, BMI_RESULT)
+        VALUES
+            (#{usrId},#{usrName},#{height},#{weight},#{bmi},#{bmiResult})
+    </insert>
+
+    <select id="findById" parameterType="String" resultType="Fitness">
+        SELECT usrid, usrname, height, weight, bmi, BMI_RESULT,
+               to_char(JOIN_DATE, 'YYYY-MM-DD HH:MI') as join_date
+        FROM FITNESS
+        WHERE usrid = #{usrId}
+    </select>
+
+    <select id="findAll" resultType="Fitness">
+        SELECT USRID, USRNAME, HEIGHT, WEIGHT, BMI, BMI_RESULT,
+               to_char(JOIN_DATE, 'YYYY-MM-DD HH:MI') as join_date
+        FROM FITNESS
+        ORDER BY USRID
+    </select>
+
+    <select id="getCount" resultType="int">
+        SELECT count(*)
+        FROM FITNESS
+    </select>
+
+    <delete id="delete" parameterType="String">
+        DELETE FITNESS
+        WHERE USRID = #{usrId}
+    </delete>
+
+    <update id="update" parameterType="Fitness">
+        UPDATE FITNESS
+        SET WEIGHT = #{weight} , HEIGHT = #{height},
+            BMI = #{bmi}, BMI_RESULT = #{bmiResult}
+        WHERE USRID = #{usrId}
+    </update>
+</mapper>
